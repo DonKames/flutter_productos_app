@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_productos_app/providers/login_form_provider.dart';
 import 'package:flutter_productos_app/ui/input_decorations.dart';
 import 'package:flutter_productos_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -22,7 +24,10 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline4,
                     ),
                     const SizedBox(height: 30),
-                    const _LoginForm()
+                    ChangeNotifierProvider(
+                      create: (_) => LoginFormProvider(),
+                      child: _LoginForm(),
+                    )
                   ],
                 ),
               ),
@@ -31,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                 'Crear una nueva cuenta',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               )
             ],
@@ -43,14 +48,14 @@ class LoginScreen extends StatelessWidget {
 }
 
 class _LoginForm extends StatelessWidget {
-  const _LoginForm({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final loginForm = Provider.of<LoginFormProvider>(context);
+
     return Container(
       child: Form(
         //TODO: Mantener la referencia al KEY
-
+        key: loginForm.formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
@@ -95,6 +100,7 @@ class _LoginForm extends StatelessWidget {
               color: Colors.deepPurple,
               onPressed: () {
                 //TODO: Login Form
+                loginForm.isValidForm();
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(
