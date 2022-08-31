@@ -50,15 +50,26 @@ class _LoginForm extends StatelessWidget {
     return Container(
       child: Form(
         //TODO: Mantener la referencia al KEY
+
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
             TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecorations.authInputDecoration(
-                  hintText: 'john.doe@gmail.com',
-                  labelText: 'Correo Electrónico',
-                  prefixIcon: Icons.alternate_email_rounded),
+                hintText: 'john.doe@gmail.com',
+                labelText: 'Correo Electrónico',
+                prefixIcon: Icons.alternate_email_rounded,
+              ),
+              validator: (value) {
+                String pattern =
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                RegExp regExp = RegExp(pattern);
+                return regExp.hasMatch(value ?? '')
+                    ? null
+                    : 'El correo no es correcto';
+              },
             ),
             const SizedBox(height: 30),
             TextFormField(
@@ -69,6 +80,11 @@ class _LoginForm extends StatelessWidget {
                   prefixIcon: Icons.lock_outline_rounded),
               keyboardType: TextInputType.emailAddress,
               obscureText: true,
+              validator: (value) {
+                return (value != null && value.length >= 6)
+                    ? null
+                    : 'Debe tener al menos 6 Caracteres';
+              },
             ),
             const SizedBox(height: 30),
             MaterialButton(
