@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_productos_app/providers/login_form_provider.dart';
 import 'package:flutter_productos_app/ui/input_decorations.dart';
 import 'package:flutter_productos_app/widgets/widgets.dart';
@@ -123,7 +122,7 @@ class _LoginForm extends StatelessWidget {
                 ),
                 child: Text(
                   loginForm.isLoading ? 'Espere...' : 'Ingresar',
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             )
