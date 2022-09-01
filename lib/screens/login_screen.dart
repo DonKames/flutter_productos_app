@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_productos_app/providers/login_form_provider.dart';
 import 'package:flutter_productos_app/ui/input_decorations.dart';
 import 'package:flutter_productos_app/widgets/widgets.dart';
@@ -67,6 +68,7 @@ class _LoginForm extends StatelessWidget {
                 labelText: 'Correo Electrónico',
                 prefixIcon: Icons.alternate_email_rounded,
               ),
+              onChanged: (value) => loginForm.email = value,
               validator: (value) {
                 String pattern =
                     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -85,6 +87,7 @@ class _LoginForm extends StatelessWidget {
                   prefixIcon: Icons.lock_outline_rounded),
               keyboardType: TextInputType.emailAddress,
               obscureText: true,
+              onChanged: (value) => loginForm.password = value,
               validator: (value) {
                 return (value != null && value.length >= 6)
                     ? null
@@ -100,7 +103,8 @@ class _LoginForm extends StatelessWidget {
               color: Colors.deepPurple,
               onPressed: () {
                 //TODO: Login Form
-                loginForm.isValidForm();
+                if (!loginForm.isValidForm()) return;
+                Navigator.pushReplacementNamed(context, 'home');
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(
