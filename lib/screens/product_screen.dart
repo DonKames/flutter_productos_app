@@ -65,8 +65,10 @@ class _ProductForm extends StatelessWidget {
       ),
       child: Container(
         width: double.infinity,
-        height: 200,
         decoration: _buildBoxDecoration(),
+        child: Form(
+          child: Column(),
+        ),
       ),
     );
   }
