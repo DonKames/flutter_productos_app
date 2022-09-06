@@ -36,7 +36,6 @@ class ProductCard extends StatelessWidget {
 
   BoxDecoration _cardBorders() {
     return BoxDecoration(
-        color: Colors.red,
         borderRadius: BorderRadius.circular(25),
         boxShadow: const [
           BoxShadow(
