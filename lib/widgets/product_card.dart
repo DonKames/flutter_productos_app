@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../models/models.dart';
+
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  const ProductCard({super.key, required this.product});
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class ProductCard extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [
-            const _BackgroundImage(),
+            _BackgroundImage(product.picture),
             const _ProductDetails(),
             Positioned(
               top: 0,
@@ -156,9 +160,9 @@ class _ProductDetails extends StatelessWidget {
 }
 
 class _BackgroundImage extends StatelessWidget {
-  const _BackgroundImage({
-    Key? key,
-  }) : super(key: key);
+  final String? url;
+
+  const _BackgroundImage(this.url);
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +171,10 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: const FadeInImage(
-          placeholder: AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
+        child: FadeInImage(
+          placeholder: const AssetImage('assets/jar-loading.gif'),
+          image:
+              NetworkImage(url ?? 'https://via.placeholder.com/400x300/f6f6f6'),
           fit: BoxFit.cover,
         ),
       ),
