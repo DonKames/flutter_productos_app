@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_productos_app/ui/input_decorations.dart';
 import 'package:flutter_productos_app/widgets/widgets.dart';
 
 class ProductScreen extends StatelessWidget {
@@ -46,6 +47,13 @@ class ProductScreen extends StatelessWidget {
           ],
         ),
       ),
+      //floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //TODO: Guardar Producto
+        },
+        child: Icon(Icons.save_outlined),
+      ),
     );
   }
 }
@@ -58,16 +66,35 @@ class _ProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        right: 10,
-        left: 10,
-        bottom: 10,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         decoration: _buildBoxDecoration(),
         child: Form(
-          child: Column(),
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              TextFormField(
+                decoration: InputDecorations.authInputDecoration(
+                    hintText: 'Nombre del producto', labelText: 'Nombre:'),
+              ),
+              const SizedBox(height: 30),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecorations.authInputDecoration(
+                    hintText: '\$150', labelText: 'Precio:'),
+              ),
+              const SizedBox(height: 30),
+              SwitchListTile(
+                value: true,
+                title: const Text('Disponible'),
+                activeColor: Colors.indigo,
+                onChanged: (value) {},
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );

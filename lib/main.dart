@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_productos_app/screens/screens.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+import 'package:flutter_productos_app/screens/screens.dart';
+import 'package:flutter_productos_app/services/services.dart';
+
+void main() => runApp(AppState());
+
+class AppState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ProductsService())],
+      child: MyApp(),
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: 'home',
       routes: {
-        'home': (_) => const HomeScreen(),
+        'home': (_) => HomeScreen(),
         'login': (_) => const LoginScreen(),
         'product': (_) => const ProductScreen(),
       },
