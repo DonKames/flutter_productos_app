@@ -20,18 +20,19 @@ class ProductCard extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           children: [
             _BackgroundImage(product.picture),
-            const _ProductDetails(),
+            _ProductDetails(product),
             Positioned(
               top: 0,
               right: 0,
-              child: _PriceTag(),
+              child: _PriceTag(product.price),
             ),
             //TODO: Mostrar de manera condicional
-            Positioned(
-              top: 0,
-              left: 0,
-              child: _NotAvailable(),
-            ),
+            if (!product.available)
+              Positioned(
+                top: 0,
+                left: 0,
+                child: _NotAvailable(),
+              ),
           ],
         ),
       ),
@@ -79,6 +80,10 @@ class _NotAvailable extends StatelessWidget {
 }
 
 class _PriceTag extends StatelessWidget {
+  final double price;
+
+  const _PriceTag(this.price);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,13 +97,13 @@ class _PriceTag extends StatelessWidget {
       ),
       height: 70,
       width: 100,
-      child: const FittedBox(
+      child: FittedBox(
         fit: BoxFit.contain,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
-            '\$103.99',
-            style: TextStyle(
+            '\$$price',
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
             ),
@@ -110,9 +115,9 @@ class _PriceTag extends StatelessWidget {
 }
 
 class _ProductDetails extends StatelessWidget {
-  const _ProductDetails({
-    Key? key,
-  }) : super(key: key);
+  final Product product;
+
+  const _ProductDetails(this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +130,10 @@ class _ProductDetails extends StatelessWidget {
         decoration: _buildBoxDecoration(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
-              'Disco duro G',
-              style: TextStyle(
+              product.name,
+              style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20),
@@ -136,8 +141,8 @@ class _ProductDetails extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             Text(
-              'ID del disco duro',
-              style: TextStyle(
+              product.id.toString(),
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 15,
               ),
@@ -171,12 +176,16 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: FadeInImage(
-          placeholder: const AssetImage('assets/jar-loading.gif'),
-          image:
-              NetworkImage(url ?? 'https://via.placeholder.com/400x300/f6f6f6'),
-          fit: BoxFit.cover,
-        ),
+        child: url == null
+            ? const Image(
+                image: AssetImage('assets/no-image.png'),
+                fit: BoxFit.cover,
+              )
+            : FadeInImage(
+                placeholder: const AssetImage('assets/jar-loading.gif'),
+                image: NetworkImage(url ?? 'assets/no-image.png'),
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }
