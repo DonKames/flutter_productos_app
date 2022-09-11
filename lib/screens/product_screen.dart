@@ -1,10 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_productos_app/providers/providers.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_productos_app/services/services.dart';
-
 import 'package:flutter_productos_app/ui/input_decorations.dart';
 import 'package:flutter_productos_app/widgets/widgets.dart';
 
@@ -58,8 +61,19 @@ class _ProductsScreenBody extends StatelessWidget {
                   top: 60,
                   right: 20,
                   child: IconButton(
-                    onPressed: () {
+                    onPressed: () async {
                       //TODO: Camera o gallery
+                      final picker = ImagePicker();
+                      final XFile? pickedFile = await picker.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 100,
+                      );
+
+                      if (pickedFile == null) {
+                        return;
+                      }
+                      productService
+                          .updateSelectedProductImage(pickedFile.path);
                     },
                     icon: const Icon(
                       Icons.camera_alt_outlined,
@@ -81,7 +95,10 @@ class _ProductsScreenBody extends StatelessWidget {
           //TODO: Guardar Producto
           if (!productForm.isValidForm()) return;
 
-          await productService.saveOrCreateProduct(productForm.product);
+          final String? imgUrl = await productService.uploadImage();
+
+          if (imgUrl != null)
+            await productService.saveOrCreateProduct(productForm.product);
         },
         child: Icon(Icons.save_outlined),
       ),
