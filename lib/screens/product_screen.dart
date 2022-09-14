@@ -91,16 +91,20 @@ class _ProductsScreenBody extends StatelessWidget {
       ),
       //floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          //TODO: Guardar Producto
-          if (!productForm.isValidForm()) return;
+        onPressed: productService.isSaving
+            ? null
+            : () async {
+                //TODO: Guardar Producto
+                if (!productForm.isValidForm()) return;
 
-          final String? imgUrl = await productService.uploadImage();
+                final String? imgUrl = await productService.uploadImage();
 
-          if (imgUrl != null)
-            await productService.saveOrCreateProduct(productForm.product);
-        },
-        child: Icon(Icons.save_outlined),
+                if (imgUrl != null) productForm.product.picture = imgUrl;
+                await productService.saveOrCreateProduct(productForm.product);
+              },
+        child: productService.isSaving
+            ? const CircularProgressIndicator(color: Colors.white)
+            : const Icon(Icons.save_outlined),
       ),
     );
   }

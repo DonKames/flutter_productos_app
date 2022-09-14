@@ -48,6 +48,7 @@ class ProductImage extends StatelessWidget {
       );
 
   Widget getImage(String? picture) {
+    print(picture);
     if (picture == null) {
       return const Image(
         image: AssetImage('assets/no-image.png'),
@@ -56,7 +57,7 @@ class ProductImage extends StatelessWidget {
     }
 
     if (picture.startsWith('http')) {
-      FadeInImage(
+      return FadeInImage(
         image: NetworkImage(imgUrl!),
         placeholder: const AssetImage('assets/jar-loading.gif'),
         fit: BoxFit.cover,
