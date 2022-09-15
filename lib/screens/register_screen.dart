@@ -122,7 +122,7 @@ class _LoginForm extends StatelessWidget {
 
                       loginForm.isLoading = true;
 
-                      await Future.delayed(const Duration(seconds: 2));
+                      loginForm.isLoading = false;
 
                       Navigator.pushReplacementNamed(context, 'home');
                     },
