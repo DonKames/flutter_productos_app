@@ -7,6 +7,7 @@ class AuthService extends ChangeNotifier {
   final String _baseUrl = 'identitytoolkit.googleapis.com';
   final String _firbaseToken = 'AIzaSyCuH2fB2FKdTCfEjipnF2SMSLEUp5ZTteI';
 
+  //Si retornamos algo, es error
   Future<String?> createUser(String email, String password) async {
     final Map<String, dynamic> authData = {
       'email': email,
@@ -21,6 +22,12 @@ class AuthService extends ChangeNotifier {
 
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
 
-    print(decodedResp);
+    if (decodedResp.containsKey('idToken')) {
+      // Token hay que guardarlo en un lugar seguro
+
+      return null;
+    } else {
+      return decodedResp['error']['message'];
+    }
   }
 }
