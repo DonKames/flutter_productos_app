@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_productos_app/providers/login_form_provider.dart';
+import 'package:flutter_productos_app/services/notifications_service.dart';
 import 'package:flutter_productos_app/ui/input_decorations.dart';
 import 'package:flutter_productos_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -132,7 +133,8 @@ class _LoginForm extends StatelessWidget {
                       if (errorMsg == null) {
                         Navigator.pushReplacementNamed(context, 'home');
                       } else {
-                        print(errorMsg);
+                        //print(errorMsg);
+                        NotificationsService.showSnackBar(errorMsg);
                         loginForm.isLoading = false;
                       }
                     },
